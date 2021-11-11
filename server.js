@@ -10,16 +10,20 @@ app.prepare()
   .then(() => {
     const server = express();
 
+    server.get('*', (req, res) => {
+      return handle(req, res)
+    });
+
+    server.get('/', (req, res) => {
+      app.render(req, res, '/');
+    });
+
     server.get('/editgame/:name', (req, res) => {
       const page = '/editgame/:name';
       const params = { name: req.params.name }
       console.log(params);
       //req, res, pathname, query
       app.render(req, res, page, params)
-    });
-
-    server.get('*', (req, res) => {
-      return handle(req, res)
     });
 
     server.listen(PORT, (err) => {
